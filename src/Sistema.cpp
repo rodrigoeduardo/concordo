@@ -2,58 +2,60 @@
 
 Sistema::Sistema()
 {
+    this->usuarios = make_unique<vector<unique_ptr<Usuario>>>();
+    this->servidores = make_unique<vector<unique_ptr<Servidor>>>();
 }
 
 Sistema::~Sistema()
 {
 }
 
-vector<Usuario *> Sistema::getUsuarios()
+unique_ptr<vector<unique_ptr<Usuario>>> Sistema::getUsuarios()
 {
-    return this->usuarios;
+    return move(this->usuarios);
 }
 
-void Sistema::adicionarUsuario(Usuario *usuario)
+void Sistema::adicionarUsuario(unique_ptr<Usuario> usuario)
 {
-    this->usuarios.push_back(usuario);
+    this->usuarios->push_back(move(usuario));
 }
 
-vector<Servidor *> Sistema::getServidores()
+unique_ptr<vector<unique_ptr<Servidor>>> Sistema::getServidores()
 {
-    return this->servidores;
+    return move(this->servidores);
 }
 
-void Sistema::adicionarServidor(Servidor *servidor)
+void Sistema::adicionarServidor(unique_ptr<Servidor> servidor)
 {
-    this->servidores.push_back(servidor);
+    this->servidores->push_back(move(servidor));
 }
 
-Usuario *Sistema::getUsuarioLogado()
+unique_ptr<Usuario> Sistema::getUsuarioLogado()
 {
-    return this->usuarioLogado;
+    return move(this->usuarioLogado);
 }
 
-void Sistema::setUsuarioLogado(Usuario *usuario)
+void Sistema::setUsuarioLogado(unique_ptr<Usuario> usuario)
 {
-    this->usuarioLogado = usuario;
+    this->usuarioLogado = move(usuario);
 }
 
-Servidor *Sistema::getServidorAtual()
+unique_ptr<Servidor> Sistema::getServidorAtual()
 {
-    return this->servidorAtual;
+    return move(this->servidorAtual);
 }
 
-void Sistema::setServidorAtual(Servidor *servidor)
+void Sistema::setServidorAtual(unique_ptr<Servidor> servidor)
 {
-    this->servidorAtual = servidor;
+    this->servidorAtual = move(servidor);
 }
 
-Canal *Sistema::getCanalAtual()
+unique_ptr<Canal> Sistema::getCanalAtual()
 {
-    return this->canalAtual;
+    return move(this->canalAtual);
 }
 
-void Sistema::setCanalAtual(Canal *canal)
+void Sistema::setCanalAtual(unique_ptr<Canal> canal)
 {
-    this->canalAtual = canal;
+    this->canalAtual = move(canal);
 }

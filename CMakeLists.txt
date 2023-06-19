@@ -8,6 +8,6 @@ file(GLOB_RECURSE SOURCE_FILES
     "src/*.cpp"
 )
 
-add_executable( concordo  ${SOURCE_FILES})
+add_executable( concordo  ${SOURCE_FILES} "src/Sistema.cpp")
 
 set_property(TARGET concordo PROPERTY CXX_STANDARD 20)

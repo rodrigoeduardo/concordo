@@ -1,0 +1,2 @@
+create-user rodrigo@gmail.com 12345 Rodrigo Eduardo
+quit
