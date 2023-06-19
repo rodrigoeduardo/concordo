@@ -4,6 +4,10 @@
 
 using namespace std;
 
+Mensagem::Mensagem()
+{
+}
+
 Mensagem::Mensagem(int enviadaPor, string conteudo)
 {
     this->dataHora = obterDataAtual();

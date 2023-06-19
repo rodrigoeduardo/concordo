@@ -15,6 +15,7 @@ private:
     string conteudo;
 
 public:
+    Mensagem();
     Mensagem(int enviadaPor, string conteudo);
     string getDataHora();
     void setDataHora(string dataHora);
