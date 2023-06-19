@@ -3,6 +3,8 @@
 
 #include <string>
 
+#include "utils.hpp"
+
 using namespace std;
 
 class Mensagem
@@ -13,6 +15,7 @@ private:
     string conteudo;
 
 public:
+    Mensagem(int enviadaPor, string conteudo);
     string getDataHora();
     void setDataHora(string dataHora);
     int getEnviadaPor();
