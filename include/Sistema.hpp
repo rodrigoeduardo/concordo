@@ -14,25 +14,25 @@ using namespace std;
 class Sistema
 {
 private:
-    unique_ptr<vector<unique_ptr<Usuario>>> usuarios;
-    unique_ptr<vector<unique_ptr<Servidor>>> servidores;
-    unique_ptr<Usuario> usuarioLogado;
-    unique_ptr<Servidor> servidorAtual;
-    unique_ptr<Canal> canalAtual;
+    vector<shared_ptr<Usuario>> usuarios;
+    vector<shared_ptr<Servidor>> servidores;
+    shared_ptr<Usuario> usuarioLogado;
+    shared_ptr<Servidor> servidorAtual;
+    shared_ptr<Canal> canalAtual;
 
 public:
     Sistema();
     ~Sistema();
-    unique_ptr<vector<unique_ptr<Usuario>>> getUsuarios();
-    void adicionarUsuario(unique_ptr<Usuario> usuario);
-    unique_ptr<vector<unique_ptr<Servidor>>> getServidores();
-    void adicionarServidor(unique_ptr<Servidor> servidor);
-    unique_ptr<Usuario> getUsuarioLogado();
-    void setUsuarioLogado(unique_ptr<Usuario> usuario);
-    unique_ptr<Servidor> getServidorAtual();
-    void setServidorAtual(unique_ptr<Servidor> servidor);
-    unique_ptr<Canal> getCanalAtual();
-    void setCanalAtual(unique_ptr<Canal> canal);
+    vector<shared_ptr<Usuario>> getUsuarios();
+    void adicionarUsuario(shared_ptr<Usuario> usuario);
+    vector<shared_ptr<Servidor>> getServidores();
+    void adicionarServidor(shared_ptr<Servidor> servidor);
+    shared_ptr<Usuario> getUsuarioLogado();
+    void setUsuarioLogado(shared_ptr<Usuario> usuario);
+    shared_ptr<Servidor> getServidorAtual();
+    void setServidorAtual(shared_ptr<Servidor> servidor);
+    shared_ptr<Canal> getCanalAtual();
+    void setCanalAtual(shared_ptr<Canal> canal);
 };
 
 #endif // SISTEMA_HPP

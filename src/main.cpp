@@ -10,7 +10,7 @@ using namespace std;
 
 int main()
 {
-    unique_ptr<Sistema> sistema(new Sistema());
+    shared_ptr<Sistema> sistema(new Sistema());
 
     menuInicial(move(sistema));
 

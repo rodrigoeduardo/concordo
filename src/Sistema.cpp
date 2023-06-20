@@ -2,60 +2,60 @@
 
 Sistema::Sistema()
 {
-    this->usuarios = make_unique<vector<unique_ptr<Usuario>>>();
-    this->servidores = make_unique<vector<unique_ptr<Servidor>>>();
+    this->usuarios = vector<shared_ptr<Usuario>>();
+    this->servidores = vector<shared_ptr<Servidor>>();
 }
 
 Sistema::~Sistema()
 {
 }
 
-unique_ptr<vector<unique_ptr<Usuario>>> Sistema::getUsuarios()
+vector<shared_ptr<Usuario>> Sistema::getUsuarios()
 {
-    return move(this->usuarios);
+    return this->usuarios;
 }
 
-void Sistema::adicionarUsuario(unique_ptr<Usuario> usuario)
+void Sistema::adicionarUsuario(shared_ptr<Usuario> usuario)
 {
-    this->usuarios->push_back(move(usuario));
+    this->usuarios.push_back(move(usuario));
 }
 
-unique_ptr<vector<unique_ptr<Servidor>>> Sistema::getServidores()
+vector<shared_ptr<Servidor>> Sistema::getServidores()
 {
-    return move(this->servidores);
+    return this->servidores;
 }
 
-void Sistema::adicionarServidor(unique_ptr<Servidor> servidor)
+void Sistema::adicionarServidor(shared_ptr<Servidor> servidor)
 {
-    this->servidores->push_back(move(servidor));
+    this->servidores.push_back(move(servidor));
 }
 
-unique_ptr<Usuario> Sistema::getUsuarioLogado()
+shared_ptr<Usuario> Sistema::getUsuarioLogado()
 {
-    return move(this->usuarioLogado);
+    return this->usuarioLogado;
 }
 
-void Sistema::setUsuarioLogado(unique_ptr<Usuario> usuario)
+void Sistema::setUsuarioLogado(shared_ptr<Usuario> usuario)
 {
-    this->usuarioLogado = move(usuario);
+    this->usuarioLogado = usuario;
 }
 
-unique_ptr<Servidor> Sistema::getServidorAtual()
+shared_ptr<Servidor> Sistema::getServidorAtual()
 {
-    return move(this->servidorAtual);
+    return this->servidorAtual;
 }
 
-void Sistema::setServidorAtual(unique_ptr<Servidor> servidor)
+void Sistema::setServidorAtual(shared_ptr<Servidor> servidor)
 {
     this->servidorAtual = move(servidor);
 }
 
-unique_ptr<Canal> Sistema::getCanalAtual()
+shared_ptr<Canal> Sistema::getCanalAtual()
 {
-    return move(this->canalAtual);
+    return this->canalAtual;
 }
 
-void Sistema::setCanalAtual(unique_ptr<Canal> canal)
+void Sistema::setCanalAtual(shared_ptr<Canal> canal)
 {
     this->canalAtual = move(canal);
 }

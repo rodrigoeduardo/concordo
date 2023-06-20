@@ -1,2 +1,4 @@
 create-user rodrigo@gmail.com 12345 Rodrigo Eduardo
+login rodrigo@gmail.com 1234
+login rodrigo@gmail.com 12345
 quit
