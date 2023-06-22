@@ -1,10 +1,12 @@
 #include "Servidor.hpp"
 
-Servidor::Servidor(int usuarioDonoId, string nome, string descricao)
+Servidor::Servidor(int usuarioDonoId, string nome)
 {
     this->usuarioDonoId = usuarioDonoId;
     this->nome = nome;
-    this->descricao = descricao;
+    this->descricao = "";
+    this->canais = vector<shared_ptr<Canal>>();
+    this->participantesIds = vector<int>();
 }
 
 int Servidor::getUsuarioDonoId()
@@ -47,14 +49,14 @@ void Servidor::setCodigoConvite(string codigoConvite)
     this->codigoConvite = codigoConvite;
 }
 
-vector<Canal *> Servidor::getCanais()
+vector<shared_ptr<Canal>> Servidor::getCanais()
 {
     return this->canais;
 }
 
-void Servidor::setCanais(vector<Canal *> canais)
+void Servidor::setCanais(vector<shared_ptr<Canal>> canais)
 {
-    this->canais = canais;
+    this->canais = move(canais);
 }
 
 vector<int> Servidor::getParticipantesIds()

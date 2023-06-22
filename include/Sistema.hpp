@@ -19,6 +19,7 @@ private:
     shared_ptr<Usuario> usuarioLogado;
     shared_ptr<Servidor> servidorAtual;
     shared_ptr<Canal> canalAtual;
+    shared_ptr<bool> sair;
 
 public:
     Sistema();
@@ -33,6 +34,8 @@ public:
     void setServidorAtual(shared_ptr<Servidor> servidor);
     shared_ptr<Canal> getCanalAtual();
     void setCanalAtual(shared_ptr<Canal> canal);
+    shared_ptr<bool> getSair();
+    void setSair(shared_ptr<bool> sair);
 };
 
 #endif // SISTEMA_HPP

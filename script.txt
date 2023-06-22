@@ -1,4 +1,14 @@
 create-user rodrigo@gmail.com 12345 Rodrigo Eduardo
 login rodrigo@gmail.com 1234
 login rodrigo@gmail.com 12345
+disconnect
+login rodrigo@gmail.com 12345
+set-server-desc servidor-do-rodrigo "Meu servidor"
+set-server-invite-code servidor-do-rodrigo 123
+create-server servidor-do-rodrigo
+set-server-desc servidor-do-rodrigo "Meu servidor"
+set-server-invite-code servidor-do-rodrigo
+create-server servidor-do-vinicius
+create-server servidor-do-sidemar
+list-servers
 quit

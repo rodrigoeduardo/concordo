@@ -4,6 +4,7 @@ Sistema::Sistema()
 {
     this->usuarios = vector<shared_ptr<Usuario>>();
     this->servidores = vector<shared_ptr<Servidor>>();
+    this->sair = shared_ptr<bool>(new bool(false));
 }
 
 Sistema::~Sistema()
@@ -58,4 +59,14 @@ shared_ptr<Canal> Sistema::getCanalAtual()
 void Sistema::setCanalAtual(shared_ptr<Canal> canal)
 {
     this->canalAtual = move(canal);
+}
+
+shared_ptr<bool> Sistema::getSair()
+{
+    return this->sair;
+}
+
+void Sistema::setSair(shared_ptr<bool> sair)
+{
+    this->sair = move(sair);
 }

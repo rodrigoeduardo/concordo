@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+#include <memory>
 
 #include <Canal.hpp>
 
@@ -15,11 +16,11 @@ private:
     string nome;
     string descricao;
     string codigoConvite;
-    vector<Canal *> canais;
+    vector<shared_ptr<Canal>> canais;
     vector<int> participantesIds;
 
 public:
-    Servidor(int usuarioDonoId, string nome, string descricao);
+    Servidor(int usuarioDonoId, string nome);
     int getUsuarioDonoId();
     void setUsuarioDonoId(int id);
     string getNome();
@@ -28,8 +29,8 @@ public:
     void setDescricao(string descricao);
     string getCodigoConvite();
     void setCodigoConvite(string codigoConvite);
-    vector<Canal *> getCanais();
-    void setCanais(vector<Canal *> canais);
+    vector<shared_ptr<Canal>> getCanais();
+    void setCanais(vector<shared_ptr<Canal>> canais);
     vector<int> getParticipantesIds();
     void setParticipantesIds(vector<int> participantesIds);
 };
