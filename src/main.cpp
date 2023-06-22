@@ -1,17 +1,18 @@
 #include <iostream>
 #include <string>
+#include <memory>
 
+#include "Sistema.hpp"
 #include "Usuario.hpp"
+#include "menus.hpp"
 
 using namespace std;
 
 int main()
 {
-    Usuario rod("Rodrigo", "rod@blob.com", "oi123");
-    Usuario vini("Vinicius", "vini@blob.com", "oi123");
+    shared_ptr<Sistema> sistema(new Sistema());
 
-    cout << "Rodrigo: " << rod.getId() << endl;
-    cout << "Vinicius: " << vini.getId() << endl;
+    menu(move(sistema));
 
     return 0;
 }
