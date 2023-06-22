@@ -12,7 +12,7 @@ int main()
 {
     shared_ptr<Sistema> sistema(new Sistema());
 
-    menuInicial(move(sistema));
+    menu(move(sistema));
 
     return 0;
 }

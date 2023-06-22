@@ -6,6 +6,4 @@
 
 using namespace std;
 
-void menuInicial(shared_ptr<Sistema> sistema);
-
-void menuLogado(shared_ptr<Sistema> sistema);
+void menu(shared_ptr<Sistema> sistema);
