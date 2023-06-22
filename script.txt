@@ -1,4 +1,5 @@
 create-user rodrigo@gmail.com 12345 Rodrigo Eduardo
+create-user vinicius@gmail.com 1234 Vinicius Victor
 login rodrigo@gmail.com 1234
 login rodrigo@gmail.com 12345
 disconnect
@@ -8,7 +9,29 @@ set-server-invite-code servidor-do-rodrigo 123
 create-server servidor-do-rodrigo
 set-server-desc servidor-do-rodrigo "Meu servidor"
 set-server-invite-code servidor-do-rodrigo
-create-server servidor-do-vinicius
+create-server servidor-rpg
+set-server-desc servidor-rpg "Meu servidor de RPG"
+set-server-invite-code servidor-rpg 123
 create-server servidor-do-sidemar
 list-servers
+remove-server servidor-do-sidemar
+list-servers
+enter-server servidor-do-sidemar
+enter-server servidor-do-rodrigo
+leave-server
+disconnect
+login vinicius@gmail.com 1234
+enter-server servidor-do-rodrigo
+list-participants
+leave-server
+enter-server servidor-rpg 44
+enter-server servidor-rpg 123
+leave-server
+create-server servidor-do-vinicius
+set-server-invite-code servidor-do-vinicius 123
+enter-server servidor-do-vinicius
+list-participants
+leave-server
+create-server vinicius-testando
+enter-server vinicius-testando
 quit

@@ -32,7 +32,7 @@ public:
     vector<shared_ptr<Canal>> getCanais();
     void setCanais(vector<shared_ptr<Canal>> canais);
     vector<int> getParticipantesIds();
-    void setParticipantesIds(vector<int> participantesIds);
+    void adicionarParticipanteId(int id);
 };
 
 #endif // SERVIDOR_HPP

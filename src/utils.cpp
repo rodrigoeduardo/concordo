@@ -21,6 +21,22 @@ void executarComando(string entrada, shared_ptr<Sistema> sistema)
 {
     string comando = entrada.substr(0, entrada.find(" "));
 
+    if (comando == "log")
+    {
+        auto serv = sistema->getServidorAtual();
+        auto usu = sistema->getUsuarioLogado();
+        if (usu == nullptr)
+        {
+            cout << "LOG: Nenhum usuario logado" << endl;
+            return;
+        }
+        else
+        {
+            cout << "LOG: " << usu->getNome() << endl;
+        }
+        return;
+    }
+
     if (comando == "quit")
     {
         sistema->setSair(make_shared<bool>(true));
@@ -129,7 +145,7 @@ void executarComando(string entrada, shared_ptr<Sistema> sistema)
             }
         }
     }
-    else
+    else if (sistema->getUsuarioLogado() != nullptr && sistema->getServidorAtual() == nullptr)
     {
         if (comando == "disconnect")
         {
@@ -225,26 +241,25 @@ void executarComando(string entrada, shared_ptr<Sistema> sistema)
         {
             string dados = entrada.substr(comando.length() + 1, entrada.size() - comando.length() - 1);
 
+            string nomeServidor = "";
+            string codigoConvite = "";
+
             int i = 0;
 
             for (; i <= dados.size(); i++)
             {
-                if (dados[i] == ' ' || dados[i] == '\0')
+                if (dados[i] == ' ')
+                {
+                    nomeServidor = dados.substr(0, i);
+                    codigoConvite = dados.substr(i + 1, entrada.size() - 1);
                     break;
-            }
-
-            string nomeServidor;
-            string codigoConvite;
-
-            if (i == dados.size())
-            {
-                nomeServidor = dados.substr(0, i);
-                codigoConvite = "";
-            }
-            else
-            {
-                nomeServidor = dados.substr(0, i - 1);
-                codigoConvite = dados.substr(i + 1, entrada.size() - 1);
+                }
+                else if (dados[i] == '\0')
+                {
+                    nomeServidor = dados.substr(0, i);
+                    codigoConvite = "";
+                    break;
+                }
             }
 
             if (nomeServidor == "")
@@ -306,9 +321,149 @@ void executarComando(string entrada, shared_ptr<Sistema> sistema)
         }
         else if (comando == "remove-server")
         {
+            string nomeServidor = entrada.substr(comando.length() + 1, entrada.size() - comando.length() - 1);
+
+            if (nomeServidor == "")
+            {
+                cout << "Dados inválidos" << endl;
+            }
+            else
+            {
+                auto servidores = sistema->getServidores();
+
+                for (int j = 0; j <= servidores.size(); j++)
+                {
+                    if (servidores.size() == 0)
+                    {
+                        cout << "Servidor " << nomeServidor << " não existe" << endl;
+                        break;
+                    }
+
+                    auto servidor = servidores.at(j);
+
+                    if (servidor->getNome() != nomeServidor)
+                        continue;
+
+                    if (servidor->getUsuarioDonoId() == sistema->getUsuarioLogado()->getId())
+                    {
+                        sistema->removerServidor(servidor);
+                        cout << "Servidor " << servidor->getNome() << " removido!" << endl;
+                        break;
+                    }
+                    else
+                    {
+                        cout << "Você não pode remover um servidor que não foi criado por você" << endl;
+                        break;
+                    }
+
+                    if (j == servidores.size() - 1)
+                        cout << "Servidor " << nomeServidor << " não existe" << endl;
+                }
+            }
+            return;
         }
         else if (comando == "enter-server")
         {
+            string dados = entrada.substr(comando.length() + 1, entrada.size() - comando.length() - 1);
+
+            string nomeServidor = "";
+            string codigoConvite = "";
+
+            int i = 0;
+
+            for (; i <= dados.size(); i++)
+            {
+                if (dados[i] == ' ')
+                {
+                    nomeServidor = dados.substr(0, i);
+                    codigoConvite = dados.substr(i + 1, entrada.size() - 1);
+                    break;
+                }
+                else if (dados[i] == '\0')
+                {
+                    nomeServidor = dados.substr(0, i);
+                    codigoConvite = "";
+                    break;
+                }
+            }
+
+            if (nomeServidor == "")
+            {
+                cout << "Dados inválidos" << endl;
+            }
+            else
+            {
+                auto servidores = sistema->getServidores();
+
+                for (int j = 0; j < servidores.size(); j++)
+                {
+                    if (servidores.size() == 0)
+                    {
+                        cout << "Servidor " << nomeServidor << " não existe" << endl;
+                        break;
+                    }
+
+                    auto servidor = servidores.at(j);
+
+                    if (servidor->getNome() != nomeServidor)
+                        continue;
+
+                    if (
+                        servidor->getCodigoConvite() == codigoConvite ||
+                        sistema->getUsuarioLogado()->getId() == servidor->getUsuarioDonoId())
+                    {
+                        sistema->setServidorAtual(servidor);
+                        servidor->adicionarParticipanteId(sistema->getUsuarioLogado()->getId());
+                        cout << "Entrou no servidor " << servidor->getNome() << endl;
+                        break;
+                    }
+                    else
+                    {
+                        cout << "Código de convite inválido" << endl;
+                        break;
+                    }
+
+                    if (j == servidores.size() - 1)
+                        cout << "Servidor " << nomeServidor << " não existe" << endl;
+                }
+            }
+            return;
+        }
+    }
+    else
+    {
+        if (comando == "leave-server")
+        {
+            cout << "Saindo do servidor " << sistema->getServidorAtual()->getNome() << endl;
+            sistema->setServidorAtual(nullptr);
+            return;
+        }
+        else if (comando == "list-participants")
+        {
+            auto servidorAtual = sistema->getServidorAtual();
+
+            if (servidorAtual == nullptr)
+            {
+                cout << "Nenhum servidor encontrado" << endl;
+            }
+            else
+            {
+                auto participantesIds = servidorAtual->getParticipantesIds();
+
+                if (participantesIds.size() == 0)
+                {
+                    cout << "Nenhum participante encontrado" << endl;
+                }
+                else
+                {
+                    for (int i = 0; i < participantesIds.size(); i++)
+                    {
+                        auto participanteId = participantesIds.at(i);
+                        auto participante = sistema->getUsuarioPorId(participanteId);
+                        cout << participante->getNome() << endl;
+                    }
+                }
+            }
         }
     }
 }

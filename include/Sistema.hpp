@@ -25,9 +25,11 @@ public:
     Sistema();
     ~Sistema();
     vector<shared_ptr<Usuario>> getUsuarios();
+    shared_ptr<Usuario> getUsuarioPorId(int id);
     void adicionarUsuario(shared_ptr<Usuario> usuario);
     vector<shared_ptr<Servidor>> getServidores();
     void adicionarServidor(shared_ptr<Servidor> servidor);
+    void removerServidor(shared_ptr<Servidor> servidor);
     shared_ptr<Usuario> getUsuarioLogado();
     void setUsuarioLogado(shared_ptr<Usuario> usuario);
     shared_ptr<Servidor> getServidorAtual();

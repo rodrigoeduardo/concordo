@@ -64,7 +64,7 @@ vector<int> Servidor::getParticipantesIds()
     return this->participantesIds;
 }
 
-void Servidor::setParticipantesIds(vector<int> participantesIds)
+void Servidor::adicionarParticipanteId(int id)
 {
-    this->participantesIds = participantesIds;
+    this->participantesIds.push_back(id);
 }
