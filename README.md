@@ -55,7 +55,3 @@ O Concordo, atualmente, conta com todas as funcionalidades previstas pelo profes
   - Entrar em um servidor
   - Sair de um servidor
   - Listar participantes do servidor
-
-### ⚠️
-
-É importante salientar que todos os comandos até a Parte I funcionam corretamente quando as entradas estão corretas, podendo ocasionar erros ao digitar entradas fora do formato correto.
