@@ -1,0 +1,21 @@
+create-user rodrigo@gmail.com 12345 Rodrigo Eduardo
+login rodrigo@gmail.com 12345
+create-server servidor-do-rodrigo
+set-server-desc servidor-do-rodrigo "Meu servidor"
+set-server-invite-code servidor-do-rodrigo
+enter-server servidor-do-rodrigo
+list-channels
+create-channel bate-papo texto
+create-channel geral voz
+list-channels
+create-channel bate-papo texto
+create-channel geral voz
+enter-channel bate-papo
+send-message "Olá, mundo!"
+send-message "Olá, Rodrigo!"
+list-messages
+leave-channel
+enter-channel geral
+send-message "Som? Som?"
+list-messages
+quit

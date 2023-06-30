@@ -6,6 +6,8 @@
 #include <memory>
 
 #include <Canal.hpp>
+#include <CanalTexto.hpp>
+#include <CanalVoz.hpp>
 
 using namespace std;
 
@@ -16,7 +18,8 @@ private:
     string nome;
     string descricao;
     string codigoConvite;
-    vector<shared_ptr<Canal>> canais;
+    vector<shared_ptr<CanalTexto>> canaisTexto;
+    vector<shared_ptr<CanalVoz>> canaisVoz;
     vector<int> participantesIds;
 
 public:
@@ -29,8 +32,10 @@ public:
     void setDescricao(string descricao);
     string getCodigoConvite();
     void setCodigoConvite(string codigoConvite);
-    vector<shared_ptr<Canal>> getCanais();
-    void setCanais(vector<shared_ptr<Canal>> canais);
+    vector<shared_ptr<CanalTexto>> getCanaisTexto();
+    void adicionarCanalTexto(shared_ptr<CanalTexto> canalTexto);
+    vector<shared_ptr<CanalVoz>> getCanaisVoz();
+    void adicionarCanalVoz(shared_ptr<CanalVoz> canalVoz);
     vector<int> getParticipantesIds();
     void adicionarParticipanteId(int id);
 };

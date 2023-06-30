@@ -3,6 +3,8 @@
 
 #include <string>
 
+#include "Mensagem.hpp"
+
 using namespace std;
 
 class Canal
@@ -14,6 +16,8 @@ public:
     Canal(string nome);
     string getNome();
     void setNome(string nome);
+    virtual void enviarMensagem(Mensagem mensagem) = 0;
+    virtual void listarMensagens() = 0;
 };
 
 #endif // CANAL_HPP

@@ -1,11 +1,15 @@
 #include "Servidor.hpp"
 
+#include <CanalTexto.hpp>
+#include <CanalVoz.hpp>
+
 Servidor::Servidor(int usuarioDonoId, string nome)
 {
     this->usuarioDonoId = usuarioDonoId;
     this->nome = nome;
     this->descricao = "";
-    this->canais = vector<shared_ptr<Canal>>();
+    this->canaisTexto = vector<shared_ptr<CanalTexto>>();
+    this->canaisVoz = vector<shared_ptr<CanalVoz>>();
     this->participantesIds = vector<int>();
 }
 
@@ -49,14 +53,24 @@ void Servidor::setCodigoConvite(string codigoConvite)
     this->codigoConvite = codigoConvite;
 }
 
-vector<shared_ptr<Canal>> Servidor::getCanais()
+vector<shared_ptr<CanalTexto>> Servidor::getCanaisTexto()
 {
-    return this->canais;
+    return this->canaisTexto;
 }
 
-void Servidor::setCanais(vector<shared_ptr<Canal>> canais)
+void Servidor::adicionarCanalTexto(shared_ptr<CanalTexto> canalTexto)
 {
-    this->canais = move(canais);
+    this->canaisTexto.push_back(move(canalTexto));
+}
+
+vector<shared_ptr<CanalVoz>> Servidor::getCanaisVoz()
+{
+    return this->canaisVoz;
+}
+
+void Servidor::adicionarCanalVoz(shared_ptr<CanalVoz> canalVoz)
+{
+    this->canaisVoz.push_back(move(canalVoz));
 }
 
 vector<int> Servidor::getParticipantesIds()
