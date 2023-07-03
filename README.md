@@ -40,12 +40,12 @@ Para rodar o projeto utilizando o script que passa por todas as funcionalidades,
 
 # Funcionalidades
 
-O Concordo, atualmente, conta com todas as funcionalidades previstas pelo professor até a Parte I:
+O Concordo, atualmente, conta com todas as funcionalidades previstas pelo professor até a Parte II:
 
 - Sair do sistema
 - Criar usuário
 - Fazer login
-- Interações com Servidores
+- Gestão de Servidores
   - Desconectar
   - Criar servidor
   - Mudar a descrição do servidor
@@ -55,3 +55,11 @@ O Concordo, atualmente, conta com todas as funcionalidades previstas pelo profes
   - Entrar em um servidor
   - Sair de um servidor
   - Listar participantes do servidor
+- Gestão de Canais
+  - Listar canais do servidor
+  - Criar um canal no servidor
+  - Entrar em um canal do servidor
+  - Sair do canal
+- Gestão de Mensagens
+  - Enviar mensagem para um canal
+  - Visualizar mensagens de um canal
