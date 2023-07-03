@@ -16,13 +16,25 @@ void CanalVoz::enviarMensagem(Mensagem mensagem)
     this->ultimaMensagem = make_shared<Mensagem>(mensagem);
 }
 
-void CanalVoz::listarMensagens()
+void CanalVoz::listarMensagens(vector<shared_ptr<Usuario>> usuariosCadastrados)
 {
+    cout << "Última Mensagem #" << this->getNome() << ":" << endl;
     if (this->ultimaMensagem == nullptr)
     {
         cout << "Nenhuma mensagem enviada" << endl;
         return;
     }
-    auto usuario = this->ultimaMensagem->getEnviadaPor();
-    cout << usuario << "<" << this->ultimaMensagem->getDataHora() << ">: " << this->ultimaMensagem->getConteudo() << endl;
+
+    string nomeUsuario = "";
+
+    for (int i = 0; i < usuariosCadastrados.size(); i++)
+    {
+        if (usuariosCadastrados[i]->getId() == this->ultimaMensagem->getEnviadaPor())
+        {
+            nomeUsuario = usuariosCadastrados[i]->getNome();
+            break;
+        }
+    }
+
+    cout << nomeUsuario << "<" << this->ultimaMensagem->getDataHora() << ">: " << this->ultimaMensagem->getConteudo() << endl;
 }

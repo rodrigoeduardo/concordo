@@ -20,7 +20,7 @@ public:
     CanalTexto(string nome);
     vector<shared_ptr<Mensagem>> getMensagens();
     void enviarMensagem(Mensagem mensagem);
-    void listarMensagens();
+    void listarMensagens(vector<shared_ptr<Usuario>> usuariosCadastrados);
 };
 
 #endif // CANALTEXTO_HPP

@@ -23,26 +23,22 @@ void executarComando(string entrada, shared_ptr<Sistema> sistema)
     {
         string comando = entrada.substr(0, entrada.find(" "));
 
-        if (comando == "log")
-        {
-            auto serv = sistema->getServidorAtual();
-            auto usu = sistema->getUsuarioLogado();
-            if (usu == nullptr)
-            {
-                cout << "LOG: Nenhum usuario logado" << endl;
-                return;
-            }
-            else
-            {
-                cout << "LOG: " << usu->getNome() << endl;
-            }
-            return;
-        }
-
         if (comando == "quit")
         {
             sistema->setSair(make_shared<bool>(true));
             return;
+        }
+
+        if (sistema->getUsuarioLogado() != nullptr)
+        {
+            if (comando == "disconnect")
+            {
+                cout << "Desconectando usuário " << sistema->getUsuarioLogado()->getEmail() << endl;
+                sistema->setUsuarioLogado(nullptr);
+                sistema->setServidorAtual(nullptr);
+                sistema->setCanalAtual(nullptr);
+                return;
+            }
         }
 
         if (sistema->getUsuarioLogado() == nullptr)
@@ -148,13 +144,7 @@ void executarComando(string entrada, shared_ptr<Sistema> sistema)
         }
         else if (sistema->getUsuarioLogado() != nullptr && sistema->getServidorAtual() == nullptr)
         {
-            if (comando == "disconnect")
-            {
-                cout << "Desconectando usuário " << sistema->getUsuarioLogado()->getEmail() << endl;
-                sistema->setUsuarioLogado(nullptr);
-                return;
-            }
-            else if (comando == "create-server")
+            if (comando == "create-server")
             {
                 string nomeServidor = entrada.substr(comando.length() + 1, entrada.size() - comando.length() - 1);
 
@@ -622,7 +612,8 @@ void executarComando(string entrada, shared_ptr<Sistema> sistema)
             }
             else if (comando == "list-messages")
             {
-                sistema->getCanalAtual()->listarMensagens();
+                auto usuariosCadastrados = sistema->getUsuarios();
+                sistema->getCanalAtual()->listarMensagens(usuariosCadastrados);
                 return;
             }
         }

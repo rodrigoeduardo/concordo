@@ -19,7 +19,7 @@ public:
     CanalVoz(string nome);
     shared_ptr<Mensagem> getUltimaMensagem();
     void enviarMensagem(Mensagem mensagem);
-    void listarMensagens();
+    void listarMensagens(vector<shared_ptr<Usuario>> usuariosCadastrados);
 };
 
 #endif // CANALVOZ_HPP
