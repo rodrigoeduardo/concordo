@@ -6,20 +6,21 @@
 
 #include <string>
 #include <vector>
+#include <memory>
+#include <iostream>
 
 using namespace std;
 
-// essa classe herdará de Canal
 class CanalTexto : public Canal
 {
 private:
-    vector<Mensagem> mensagens;
+    vector<shared_ptr<Mensagem>> mensagens;
 
 public:
     CanalTexto(string nome);
-    vector<Mensagem> getMensagens();
-    void setMensagens(vector<Mensagem> mensagens);
+    vector<shared_ptr<Mensagem>> getMensagens();
     void enviarMensagem(Mensagem mensagem);
+    void listarMensagens(vector<shared_ptr<Usuario>> usuariosCadastrados);
 };
 
 #endif // CANALTEXTO_HPP

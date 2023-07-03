@@ -2,6 +2,7 @@
 #include <time.h>
 #include <memory>
 #include "Sistema.hpp"
+#include "Mensagem.hpp"
 
 using namespace std;
 

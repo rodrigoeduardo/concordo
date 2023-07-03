@@ -12,7 +12,7 @@ const string obterDataAtual()
     char buf[80];
     tstruct = *localtime(&now);
 
-    strftime(buf, sizeof(buf), "%Y-%m-%d.%X", &tstruct);
+    strftime(buf, sizeof(buf), "%d/%m/%Y - %X", &tstruct);
 
     return buf;
 }
@@ -23,26 +23,22 @@ void executarComando(string entrada, shared_ptr<Sistema> sistema)
     {
         string comando = entrada.substr(0, entrada.find(" "));
 
-        if (comando == "log")
-        {
-            auto serv = sistema->getServidorAtual();
-            auto usu = sistema->getUsuarioLogado();
-            if (usu == nullptr)
-            {
-                cout << "LOG: Nenhum usuario logado" << endl;
-                return;
-            }
-            else
-            {
-                cout << "LOG: " << usu->getNome() << endl;
-            }
-            return;
-        }
-
         if (comando == "quit")
         {
             sistema->setSair(make_shared<bool>(true));
             return;
+        }
+
+        if (sistema->getUsuarioLogado() != nullptr)
+        {
+            if (comando == "disconnect")
+            {
+                cout << "Desconectando usuário " << sistema->getUsuarioLogado()->getEmail() << endl;
+                sistema->setUsuarioLogado(nullptr);
+                sistema->setServidorAtual(nullptr);
+                sistema->setCanalAtual(nullptr);
+                return;
+            }
         }
 
         if (sistema->getUsuarioLogado() == nullptr)
@@ -148,13 +144,7 @@ void executarComando(string entrada, shared_ptr<Sistema> sistema)
         }
         else if (sistema->getUsuarioLogado() != nullptr && sistema->getServidorAtual() == nullptr)
         {
-            if (comando == "disconnect")
-            {
-                cout << "Desconectando usuário " << sistema->getUsuarioLogado()->getEmail() << endl;
-                sistema->setUsuarioLogado(nullptr);
-                return;
-            }
-            else if (comando == "create-server")
+            if (comando == "create-server")
             {
                 string nomeServidor = entrada.substr(comando.length() + 1, entrada.size() - comando.length() - 1);
 
@@ -431,7 +421,7 @@ void executarComando(string entrada, shared_ptr<Sistema> sistema)
                 return;
             }
         }
-        else
+        else if (sistema->getUsuarioLogado() != nullptr && sistema->getServidorAtual() != nullptr && sistema->getCanalAtual() == nullptr)
         {
             if (comando == "leave-server")
             {
@@ -465,6 +455,165 @@ void executarComando(string entrada, shared_ptr<Sistema> sistema)
                         }
                     }
                 }
+                return;
+            }
+            else if (comando == "list-channels")
+            {
+                auto servidorAtual = sistema->getServidorAtual();
+
+                cout << "#canais de texto" << endl;
+
+                auto canaisTexto = servidorAtual->getCanaisTexto();
+
+                if (canaisTexto.size() == 0)
+                {
+                    cout << "Nenhum canal de texto encontrado" << endl;
+                }
+                else
+                {
+                    for (int i = 0; i < canaisTexto.size(); i++)
+                    {
+                        auto canalTexto = canaisTexto.at(i);
+                        cout << canalTexto->getNome() << endl;
+                    }
+                }
+
+                cout << "#canais de voz" << endl;
+
+                auto canaisVoz = servidorAtual->getCanaisVoz();
+
+                if (canaisVoz.size() == 0)
+                {
+                    cout << "Nenhum canal de voz encontrado" << endl;
+                }
+                else
+                {
+                    for (int i = 0; i < canaisVoz.size(); i++)
+                    {
+                        auto canalVoz = canaisVoz.at(i);
+                        cout << canalVoz->getNome() << endl;
+                    }
+                }
+                return;
+            }
+            else if (comando == "create-channel")
+            {
+                string dados = entrada.substr(comando.length() + 1, entrada.size() - comando.length() - 1);
+
+                int i = 0;
+
+                for (; i <= dados.size(); i++)
+                {
+                    if (dados[i] == ' ')
+                        break;
+                }
+
+                string nomeCanal = dados.substr(0, i);
+                string tipo = dados.substr(i + 1, entrada.size() - 1);
+
+                if (nomeCanal == "" || tipo == "")
+                {
+                    cout << "Dados inválidos" << endl;
+                }
+                else
+                {
+                    auto servidorAtual = sistema->getServidorAtual();
+
+                    if (tipo == "texto")
+                    {
+                        for (int j = 0; j < servidorAtual->getCanaisTexto().size(); j++)
+                        {
+                            if (servidorAtual->getCanaisTexto().at(j)->getNome() == nomeCanal)
+                            {
+                                cout << "Canal de texto " << nomeCanal << " já existe" << endl;
+                                return;
+                            }
+                        }
+
+                        servidorAtual->adicionarCanalTexto(make_shared<CanalTexto>(CanalTexto(nomeCanal)));
+                        cout << "Canal de texto " << nomeCanal << " criado!" << endl;
+                    }
+                    else if (tipo == "voz")
+                    {
+                        for (int j = 0; j < servidorAtual->getCanaisVoz().size(); j++)
+                        {
+                            if (servidorAtual->getCanaisVoz().at(j)->getNome() == nomeCanal)
+                            {
+                                cout << "Canal de voz " << nomeCanal << " já existe" << endl;
+                                return;
+                            }
+                        }
+
+                        servidorAtual->adicionarCanalVoz(make_shared<CanalVoz>(CanalVoz(nomeCanal)));
+                        cout << "Canal de voz " << nomeCanal << " criado!" << endl;
+                    }
+                    else
+                    {
+                        cout << "Tipo de canal inválido" << endl;
+                    }
+                }
+                return;
+            }
+            else if (comando == "enter-channel")
+            {
+                string nomeServidor = entrada.substr(comando.length() + 1, entrada.size() - comando.length() - 1);
+
+                if (nomeServidor == "")
+                {
+                    cout << "Dados inválidos" << endl;
+                }
+                else
+                {
+                    for (int i = 0; i < sistema->getServidorAtual()->getCanaisTexto().size(); i++)
+                    {
+                        if (sistema->getServidorAtual()->getCanaisTexto().at(i)->getNome() == nomeServidor)
+                        {
+                            sistema->setCanalAtual(sistema->getServidorAtual()->getCanaisTexto().at(i));
+                            cout << "Entrou no canal " << nomeServidor << endl;
+                            return;
+                        }
+                    }
+                    for (int i = 0; i < sistema->getServidorAtual()->getCanaisVoz().size(); i++)
+                    {
+                        if (sistema->getServidorAtual()->getCanaisVoz().at(i)->getNome() == nomeServidor)
+                        {
+                            sistema->setCanalAtual(sistema->getServidorAtual()->getCanaisVoz().at(i));
+                            cout << "Entrou no canal " << nomeServidor << endl;
+                            return;
+                        }
+                    }
+                    cout << "Canal " << nomeServidor << " não existe" << endl;
+                }
+                return;
+            }
+        }
+        else
+        {
+            if (comando == "leave-channel")
+            {
+                cout << "Saindo do canal " << sistema->getCanalAtual()->getNome() << endl;
+                sistema->setCanalAtual(nullptr);
+                return;
+            }
+            else if (comando == "send-message")
+            {
+                string mensagem = entrada.substr(comando.length() + 1, entrada.size() - comando.length() - 1);
+
+                if (mensagem == "")
+                {
+                    cout << "Dados inválidos" << endl;
+                }
+                else
+                {
+                    Mensagem novaMensagem = Mensagem(sistema->getUsuarioLogado()->getId(), mensagem);
+                    sistema->getCanalAtual()->enviarMensagem(novaMensagem);
+                }
+                return;
+            }
+            else if (comando == "list-messages")
+            {
+                auto usuariosCadastrados = sistema->getUsuarios();
+                sistema->getCanalAtual()->listarMensagens(usuariosCadastrados);
                 return;
             }
         }
